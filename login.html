@@ -1,54 +1,76 @@
-<!DOCTYPE html5>
 <!-- HTML form for how the login is setup. 
 Authors:Eric DeAngelis, David Serrano (serranod7). -->
 
+<!DOCTYPE html5>
+<html lang="en">
 
-<html lang="en" dir="ltr">
-  <head>
-    <meta chartset="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login Form</title>
-    <link rel="stylesheet" href="login.css">
-    <script src = "docCookies.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  </head>
-  <body>
+    <link rel="stylesheet" href="koala.css">
+    <script src="docCookies.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+    <div class="header">MultiElement Desktop Scheduler</div>
+    <div class="topnav">
+        <ul>
+            <li><a> Admin</a></li>
+            <li><a href="#news">Reports</a></li>
+            <li><a href="#contact">Help</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a onclick="logout()">Logout</a></li>
+        </ul>
+    </div>
+
     <form class="box">
-      <h1>Scheduler Login</h1>
-      Username:  <input id="username" type="text" name="user" value="" placeholder="Username">
-      <br>
-      Password: <input id="password" type="password" name="password" value="" placeholder="password">
-      <br>
-      <input type="button" onclick="check(this.form)" name="submit" id="submit" value="Submit">
-      <br>
-      <a href="changepwd.php" style="color:red">Change Password </a>
-      <div id="message"></div>
+
+        <div class="row">
+
+            <div class="column_left"></div>
+            <div class="column_center">
+                <div class="container_login">
+                    <input id="username" type="text" name="user" value="" placeholder="username/email" required autofocus><br><br>
+                    <input id="password" type="password" name="password" value="" placeholder="password" required><br><br>
+                    <center><input id="submit" type="button" value="Submit" onclick="check(this.form)" name="submit"> </center>
+                </div>
+            </div>
+            <div class="column_right"></div>
+        </div>
     </form>
-    
-  </body>
-  
-  <script language="javascript">
-    function check(form)/*function to check userid & password*/
-    {
-        fetch("api/validate_user.php",{
+
+    <div class="footer">
+        <p>Team Elephants - Project Koala Saltarin 2019</p>
+    </div>
+</body>
+
+<script language="javascript">
+    function check(form) /*function to check userid & password*/ {
+        fetch("api/validate_user.php", {
             method: "POST",
             headers: {
-                "Content-Type":"application/x-www-form-urlencoded",
+                "Content-Type": "application/x-www-form-urlencoded",
             },
             body: $.param({
-                "username":document.getElementById("username").value,
-                "password":document.getElementById("password").value
+                "username": document.getElementById("username").value,
+                "password": document.getElementById("password").value
             })
-        }).then(function(response){
-            response.json().then(function(data){
-                if(data.validation == true){
+        }).then(function(response) {
+            response.json().then(function(data) {
+                if (data.validation == true) {
                     docCookies.setItem("username", form.user.value);
                     docCookies.setItem("password", form.password.value);
                     window.location.href = "index.html";
-                }else{
+                } else {
                     document.getElementById("message").innerHTML = "Login attempt failed. Username or Password is incorrect";
                 }
             })
         });
     }
-  </script>
+</script>
+
 </html>
